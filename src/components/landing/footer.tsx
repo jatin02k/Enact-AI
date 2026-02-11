@@ -8,15 +8,17 @@ export function Footer() {
           &copy; {new Date().getFullYear()} Enact AI
         </p>
 
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-4">
+            Contact:
+            <Link
+              href="mailto:jatin02kr@gmail.com"
+              className="text-coral hover:text-coral/80 transition-colors"
+            >
+              jatin02kr@gmail.com
+            </Link>
+            
           <Link
-            href="#"
-            className="text-sm text-warm-gray transition-colors hover:text-deep-brown"
-          >
-            Contact
-          </Link>
-          <Link
-            href="#"
+            href="/privacy"
             className="text-sm text-warm-gray transition-colors hover:text-deep-brown"
           >
             Privacy

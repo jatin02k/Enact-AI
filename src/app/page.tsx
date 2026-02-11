@@ -3,6 +3,7 @@ import { Hero } from "@/components/landing/hero";
 import { Problem } from "@/components/landing/problem";
 import { HowItWorks } from "@/components/landing/how-it-works";
 import { SocialProof } from "@/components/landing/social-proof";
+import { FoundersManifesto } from "@/components/landing/founders-manifesto";
 import { FinalCTA } from "@/components/landing/final-cta";
 import { Footer } from "@/components/landing/footer";
 
@@ -15,6 +16,7 @@ export default function Home() {
         <Problem />
         <HowItWorks />
         {/* <SocialProof /> */}
+        <FoundersManifesto />
         <FinalCTA />
       </main>
       <Footer />
