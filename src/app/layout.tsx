@@ -6,6 +6,9 @@ import { Toaster } from "react-hot-toast";
 export const metadata: Metadata = {
   title: "Enact AI - Transform Your Self-Help Books Into Daily Actions",
   description: "Turn any self-help book into real-world practice. Snap a page, get an actionable task, complete it, upload proof, and gain XP. Build momentum daily.",
+  icons: {
+    icon: "/logo_nobg.png",
+  },
   openGraph: {
     title: "Enact AI - Transform Your Self-Help Books Into Daily Actions",
     description: "Turn any self-help book into real-world practice. Snap a page, get an actionable task, complete it, upload proof, and gain XP. Build momentum daily.",
