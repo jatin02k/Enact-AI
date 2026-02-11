@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #FFF8F0;
+    --foreground: #2D2520;
+    --radius: 0.75rem;
+  }
+  
+  body {
+    @apply bg-warm-cream text-deep-brown;
+  }
+}
