@@ -4,11 +4,11 @@ import { clsx } from "clsx";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "Enact AI - Stop Reading. Start Doing.",
-  description: "Turn your self-help books into real-world action.",
+  title: "Enact AI - Transform Your Self-Help Books Into Daily Actions",
+  description: "Turn any self-help book into real-world practice. Snap a page, get an actionable task, complete it, upload proof, and gain XP. Build momentum daily.",
   openGraph: {
-    title: "Enact AI - Stop Reading. Start Doing.",
-    description: "Turn your self-help books into real-world action.",
+    title: "Enact AI - Transform Your Self-Help Books Into Daily Actions",
+    description: "Turn any self-help book into real-world practice. Snap a page, get an actionable task, complete it, upload proof, and gain XP. Build momentum daily.",
     url: "https://enactai.vercel.app",
     siteName: "Enact AI",
     images: [
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Enact AI - Stop Reading. Start Doing.",
-    description: "Turn your self-help books into real-world action.",
+    title: "Enact AI - Transform Your Self-Help Books Into Daily Actions",
+    description: "Turn any self-help book into real-world practice. Snap a page, get an actionable task, complete it, upload proof, and gain XP. Build momentum daily.",
     images: ["https://enactai.vercel.app/enactai.png"],
   },
 };
