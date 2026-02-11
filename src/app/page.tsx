@@ -14,7 +14,7 @@ export default function Home() {
         <Hero />
         <Problem />
         <HowItWorks />
-        <SocialProof />
+        {/* <SocialProof /> */}
         <FinalCTA />
       </main>
       <Footer />
