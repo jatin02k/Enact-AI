@@ -12,7 +12,7 @@ export function Header() {
         </div>
         <div className="flex items-center gap-4">
           <Link
-            href="#"
+            href="/login"
             className="text-sm font-medium text-warm-gray transition-colors hover:text-deep-brown"
           >
             Sign In
