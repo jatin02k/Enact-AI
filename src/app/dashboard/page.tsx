@@ -1,3 +1,4 @@
+import UploadImage from "@/components/dashboard/uploadImage";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -47,6 +48,10 @@ export default async function DashboardPage() {
               </button>
             </form>
           </div>
+          <div className="pt-4">
+            <UploadImage />
+          </div>
+
         </div>
       </div>
     </div>
