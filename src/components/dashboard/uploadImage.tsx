@@ -6,8 +6,13 @@ import { Upload, X } from "lucide-react"
 import toast from "react-hot-toast"
 import { createClient } from "@/lib/supabase/client"
 import Image from "next/image"
+import { normalizeCategory } from "@/lib/utils"
 
-export default function UploadImage() {
+interface UploadImageProps {
+  onTasksExtracted?: () => void;
+}
+
+export default function UploadImage({ onTasksExtracted }: UploadImageProps) {
     const supabase = createClient();
     const [isUploading, setIsUploading] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -73,13 +78,59 @@ export default function UploadImage() {
 
             setPreviewUrl(publicUrl);
             toast.success('Image uploaded successfully');
+            
+            // Extract tasks using Gemini AI
+            toast.loading('Extracting tasks from image...');
+            const response = await fetch('/api/extract-task', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    imageUrl: publicUrl,
+                    filePath: filePath // Send file path for ownership verification
+                })
+            });
 
-            // TODO: Save to database (you'll do this in Week 2)
-            // await saveTaskToDatabase(publicUrl);
+            if (!response.ok) {
+                throw new Error('Failed to extract tasks');
+            }
+
+            const { tasks } = await response.json();
+            
+            // Save tasks to database
+            const tasksToInsert = tasks.map((task: any) => ({
+                user_id: user.id,
+                title: task.title,
+                description: task.description,
+                category: normalizeCategory(task.category), // Normalize to match DB constraint
+                estimated_xp: task.estimated_xp,
+                image_url: publicUrl,
+                status: 'pending'
+            }));
+
+            console.log('Inserting tasks:', tasksToInsert);
+
+            const { error: dbError } = await supabase
+                .from('tasks')
+                .insert(tasksToInsert);
+
+            if (dbError) {
+                console.error('Database error details:', dbError);
+                toast.error(`Failed to save tasks: ${dbError.message}`);
+                throw dbError;
+            }
+
+            toast.dismiss();
+            toast.success(`Extracted ${tasks.length} task(s)!`);
+            
+            // Auto-refresh the task list
+            if (onTasksExtracted) {
+                onTasksExtracted();
+            }
 
         } catch (error: unknown) {
             const errorMessage = error instanceof Error ? error.message : "Unknown error";
             console.error('upload error', errorMessage);
+            toast.dismiss();
             toast.error(errorMessage);
         } finally {
             setIsUploading(false);
@@ -93,20 +144,21 @@ export default function UploadImage() {
             fileInputRef.current.value = '';
         }
     }
+    
 
     return (
         <div className="w-full max-w-2xl mx-auto">
-            <div className="bg-zinc-900 rounded-lg p-8 border border-zinc-800">
+            <div className="bg-white rounded-lg p-8 border border-soft-sand shadow-lg">
                 <div className="flex flex-col items-center justify-center space-y-6">
                     <div className="text-center">
-                        <h2 className="text-2xl font-bold text-white mb-2">Upload Book Page</h2>
-                        <p className="text-zinc-400">Capture a page from your book to extract an actionable task</p>
+                        <h2 className="text-2xl font-bold text-deep-brown mb-2">Upload Book Page</h2>
+                        <p className="text-warm-gray">Capture a page from your book to extract an actionable task</p>
                     </div>
 
                     {/* Image Preview */}
                     {previewUrl && (
                         <div className="relative w-full max-w-md">
-                            <div className="relative aspect-square w-full rounded-lg overflow-hidden border-2 border-orange-500/50">
+                            <div className="relative aspect-square w-full rounded-lg overflow-hidden border-2 border-coral/50">
                                 <Image
                                     src={previewUrl}
                                     alt="Book page preview"
@@ -140,7 +192,7 @@ export default function UploadImage() {
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={isUploading}
-                                className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white"
+                                className="w-full sm:w-auto bg-coral hover:bg-coral/90 text-white"
                             >
                                 Choose Image
                                 <Upload className="ml-2 w-4 h-4" />
@@ -151,7 +203,7 @@ export default function UploadImage() {
                                     type="button"
                                     onClick={handleUpload}
                                     disabled={isUploading}
-                                    className="flex-1 sm:flex-none bg-orange-500 hover:bg-orange-600 text-white"
+                                    className="flex-1 sm:flex-none bg-coral hover:bg-coral/90 text-white"
                                 >
                                     {isUploading ? "Uploading..." : "Upload & Extract Task"}
                                     <Upload className="ml-2 w-4 h-4" />
@@ -161,14 +213,14 @@ export default function UploadImage() {
                                     onClick={() => fileInputRef.current?.click()}
                                     disabled={isUploading}
                                     variant="ghost"
-                                    className="border border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+                                    className="border border-soft-sand text-deep-brown hover:bg-soft-sand/50"
                                 >
                                     Change
                                 </Button>
                             </div>
                         )}
 
-                        <p className="text-xs text-zinc-500 text-center">
+                        <p className="text-xs text-warm-gray text-center">
                             Recommended: Clear photo, JPG/PNG, Max 10 MB
                         </p>
                     </div>
