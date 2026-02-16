@@ -18,9 +18,7 @@ export async function submitEmail(prevState: ActionState | null, formData: FormD
     }
     const { error } = await supabase
         .from("waitlist")
-        .insert([{ email }])
-        .select()
-        .single();
+        .insert([{ email }]);
 
     if (error) {
         console.log('Supabase Error', error);
