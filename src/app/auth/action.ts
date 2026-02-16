@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
+import { unknown } from "zod";
 
 export async function signInWithGoogle() {
     const supabase = await createClient();
@@ -28,3 +29,11 @@ export async function signInWithGoogle() {
     }
 }
 
+export async function signOut() {
+    const supabase = await createClient();
+    const {error} = await supabase.auth.signOut();
+    if(error){
+        return console.error('/sign-out?error=' + error.message);
+    }
+    return redirect('/login');
+};

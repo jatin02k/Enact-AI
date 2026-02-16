@@ -5,6 +5,7 @@ import UploadImage from "@/components/dashboard/uploadImage";
 import TaskDisplay, { TaskDisplayRef } from "@/components/dashboard/taskDisplay";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { signOut } from '../auth/action';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function DashboardPage() {
             Hello, <span className="font-semibold text-coral">{user.email}</span>
           </p>
           
-          <form action="/api/auth/signout" method="post" className="mt-4">
+          <form action={signOut} className="mt-4">
             <button
               type="submit"
               className="px-4 py-2 bg-soft-sand text-deep-brown rounded hover:bg-coral hover:text-white transition text-sm"
