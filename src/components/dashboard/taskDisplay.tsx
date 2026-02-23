@@ -22,7 +22,11 @@ export interface TaskDisplayRef {
   refresh: () => Promise<void>;
 }
 
-const TaskDisplay = forwardRef<TaskDisplayRef>((props, ref) => {
+interface TaskDisplayProps {
+  refreshTrigger?: number;
+}
+
+const TaskDisplay = forwardRef<TaskDisplayRef, TaskDisplayProps>(({ refreshTrigger }, ref) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
@@ -55,6 +59,10 @@ const TaskDisplay = forwardRef<TaskDisplayRef>((props, ref) => {
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  useEffect(() => {
+    if (refreshTrigger) fetchTasks();
+  }, [refreshTrigger]);
 
   if (loading) {
     return (
