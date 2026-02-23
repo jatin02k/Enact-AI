@@ -3,3 +3,9 @@ node_modules/
 out/
 build/
 *.log
+
+# env files
+.env
+.env.local
+.env.production
+.env.development
