@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-
 import { User } from '@supabase/supabase-js'
 import { Flame, LogOut } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'

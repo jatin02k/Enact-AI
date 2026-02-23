@@ -8,3 +8,14 @@ build/
 .env.local
 .env.production
 .env*.local
+
+
+
+# Secrets (The most important part!)
+
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS files
+.DS_Store

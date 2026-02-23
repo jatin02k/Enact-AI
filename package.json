@@ -12,6 +12,7 @@
     "@ai-sdk/google": "^3.0.29",
     "@ai-sdk/react": "^3.0.88",
     "@radix-ui/react-slot": "^1.1.1",
+    "@supabase-js/source": "github:supabase/supabase-js",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/ssr": "^0.8.0",
