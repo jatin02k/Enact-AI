@@ -1,53 +1,87 @@
-import { Camera, CheckCircle2, Trophy } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Camera, CheckCircle2, Zap } from "lucide-react";
 
 const steps = [
   {
+    number: "01",
     icon: Camera,
-    title: "Capture",
-    description: "Snap a photo of any book page. AI extracts one actionable task.",
+    label: "CAPTURE",
+    title: "Snap Any Page",
+    description:
+      "Open any self-help book. Snap a photo of any page. No typing, no summarising.",
+    iconBg: "bg-orange-500",
+    labelColor: "text-orange-500",
+    borderHover: "hover:border-orange-200",
   },
   {
+    number: "02",
+    icon: Zap,
+    label: "ACT",
+    title: "Get 1 Task",
+    description:
+      "AI reads the page and gives you exactly one real-world task to do today. Not a summary. An action.",
+    iconBg: "bg-amber-500",
+    labelColor: "text-amber-600",
+    borderHover: "hover:border-amber-200",
+  },
+  {
+    number: "03",
     icon: CheckCircle2,
-    title: "Act",
-    description: "Do the task in real life. Take a proof photo of your work.",
-  },
-  {
-    icon: Trophy,
-    title: "Verify",
-    description: "AI verifies your proof. Gain XP. Build your streak. Grown.",
+    label: "PROVE",
+    title: "Upload Proof",
+    description:
+      "Do the task. Upload a proof photo. AI verifies you actually did it. Earn XP. Build your streak.",
+    iconBg: "bg-green-500",
+    labelColor: "text-green-600",
+    borderHover: "hover:border-green-200",
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="relative overflow-hidden bg-warm-cream py-24 sm:py-32">
-      <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="md:text-center text-left max-w-3xl mx-auto mb-16">
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-espresso sm:text-4xl">
-            Three steps to momentum.
-          </h2>
-        </div>
+    <section className="relative py-24 sm:py-32" style={{ background: 'linear-gradient(180deg, #fef5e8 0%, #fdf2de 100%)' }}>
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-stone-200 to-transparent" />
 
-        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-8 md:max-w-none md:grid-cols-3">
-          {steps.map((step, index) => (
+      <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-4 text-center">
+          <span className="text-xs font-bold uppercase tracking-widest text-orange-500">
+            How It Works
+          </span>
+        </div>
+        <h2 className="mb-4 text-center font-heading text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">
+          Three steps to momentum.
+        </h2>
+        <p className="mx-auto mb-16 max-w-xl text-center text-stone-500">
+          Not a tutorial. A game loop. Every day you play, you level up.
+        </p>
+
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-6 md:max-w-none md:grid-cols-3">
+          {steps.map((step) => (
             <div
-              key={step.title}
-              className="relative flex flex-col items-start rounded-2xl border border-soft-sand/60 bg-white p-8 shadow-sm transition-shadow hover:shadow-lg hover:shadow-coral/5"
+              key={step.number}
+              className={`group relative flex flex-col rounded-2xl border border-orange-100 bg-[#fdf8f0] p-8 transition-all hover:shadow-xl hover:shadow-orange-100 ${step.borderHover}`}
             >
-              <div className="absolute right-6 top-6 -z-10 font-heading text-8xl font-black text-warm-gold/10 pointer-events-none select-none">
-                0{index + 1}
+              {/* Step number watermark */}
+              <div className="pointer-events-none absolute right-6 top-6 select-none font-heading text-7xl font-black text-stone-100">
+                {step.number}
               </div>
-              
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-light-peach text-coral shadow-sm ring-1 ring-black/5">
-                <step.icon className="h-7 w-7" aria-hidden="true" />
+
+              {/* Label pill */}
+              <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-stone-100 bg-stone-50 px-3 py-1">
+                <span className={`text-[10px] font-bold uppercase tracking-widest ${step.labelColor}`}>
+                  {step.label}
+                </span>
               </div>
-              
-              <h3 className="mb-3 text-xl font-semibold text-deep-brown">
+
+              {/* Icon */}
+              <div className={`mb-6 flex h-12 w-12 items-center justify-center rounded-xl ${step.iconBg} shadow-md`}>
+                <step.icon className="h-6 w-6 text-white" aria-hidden="true" />
+              </div>
+
+              <h3 className="mb-3 text-xl font-semibold text-stone-900">
                 {step.title}
               </h3>
-              
-              <p className="text-base leading-relaxed text-warm-gray">
+              <p className="text-sm leading-relaxed text-stone-500 group-hover:text-stone-600 transition-colors">
                 {step.description}
               </p>
             </div>

@@ -41,7 +41,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={clsx(
-          "font-sans bg-warm-cream text-deep-brown antialiased"
+          "font-sans text-stone-900 antialiased"
         )}
       >
         {children}
