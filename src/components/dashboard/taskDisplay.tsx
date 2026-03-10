@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, Clock, Flame } from 'lucide-react';
+import ProofModal from './proofModal';
 
 interface Task {
   id: string;
@@ -27,6 +28,8 @@ interface TaskDisplayProps {
 }
 
 const TaskDisplay = forwardRef<TaskDisplayRef, TaskDisplayProps>(({ refreshTrigger }, ref) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
@@ -50,6 +53,10 @@ const TaskDisplay = forwardRef<TaskDisplayRef, TaskDisplayProps>(({ refreshTrigg
       setLoading(false);
     }
   };
+
+  const handleProofSubmit = async()=>{
+    
+  }
 
   // Expose refresh function to parent
   useImperativeHandle(ref, () => ({
@@ -139,9 +146,20 @@ const TaskDisplay = forwardRef<TaskDisplayRef, TaskDisplayProps>(({ refreshTrigg
                       <Clock className="w-3 h-3 mr-1" />
                       Pending
                     </Badge>
-                    <Button size="sm" variant="ghost" className="text-xs text-deep-brown hover:bg-coral/10 hover:text-coral">
+                    <Button size="sm" variant="ghost"
+                      onClick={() => {
+                        setSelectedTask(task)
+                        setIsModalOpen(true)
+                      }}
+                      className="text-xs text-deep-brown hover:bg-coral/10 hover:text-coral">
                       Upload Proof
                     </Button>
+                    <ProofModal
+                      isOpen={isModalOpen}
+                      onClose={() => setIsModalOpen(false)}
+                      taskTitle={selectedTask?.title ?? ""}
+                      onSubmit={handleProofSubmit}  // passing the function down
+                    />
                   </>
                 ) : (
                   <Badge variant="outline" className="bg-sage/10 text-sage border-sage/30">

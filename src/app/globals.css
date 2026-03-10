@@ -32,7 +32,8 @@
   }
   
   body {
-    @apply bg-warm-cream text-deep-brown;
+    background: #fdf8f0;
+    color: #1c1917;
   }
   .dark {
     --background: 0 0% 3.9%;

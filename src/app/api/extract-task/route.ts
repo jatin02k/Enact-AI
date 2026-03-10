@@ -1,9 +1,9 @@
 import { model } from '@/lib/ai/gemini';
-import { prompt } from '@/lib/ai/prompt';
 import { generateObject } from 'ai';
 import { ExtractionSchema } from '@/lib/utils';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { EXTRACT_TASK_PROMPT } from '@/lib/ai/prompts';
 
 export async function POST(req: NextRequest) {
   try {
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
         {
           role: 'user',
           content: [
-            { type: 'text', text: prompt },
+            { type: 'text', text: EXTRACT_TASK_PROMPT },
             { type: 'image', image: dataUrl }
           ],
         },

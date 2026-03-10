@@ -2,24 +2,28 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-soft-sand/50 bg-light-peach py-10">
+    <footer className="w-full border-t border-orange-100 py-10" style={{ background: '#fdf8f0' }}>
       <div className="container mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 md:flex-row md:gap-0">
-        <p className="text-sm font-medium text-warm-gray">
-          &copy; {new Date().getFullYear()} Enact AI
-        </p>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold text-stone-900">
+            ENACT <span className="text-orange-500">AI</span>
+          </span>
+          <span className="text-stone-400 text-sm ml-2">
+            © {new Date().getFullYear()}
+          </span>
+        </div>
 
-        <nav className="flex items-center gap-4">
-            Contact:
-            <Link
-              href="mailto:jatin02kr@gmail.com"
-              className="text-coral hover:text-coral/80 transition-colors"
-            >
-              jatin02kr@gmail.com
-            </Link>
-            
+        <nav className="flex items-center gap-6 text-sm">
+          <span className="text-stone-400">Contact:</span>
+          <Link
+            href="mailto:jatin02kr@gmail.com"
+            className="text-orange-500 hover:text-orange-400 transition-colors"
+          >
+            jatin02kr@gmail.com
+          </Link>
           <Link
             href="/privacy"
-            className="text-sm text-warm-gray transition-colors hover:text-deep-brown"
+            className="text-stone-400 transition-colors hover:text-stone-900"
           >
             Privacy
           </Link>
