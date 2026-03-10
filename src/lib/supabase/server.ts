@@ -12,6 +12,7 @@ export async function createClient(){
         {
             cookies: {
                 getAll(): { name: string; value: string }[] {
+                    // @ts-ignore - Next.js 15 requires await but Supabase type expects sync
                     return cookieStore.getAll();
                 },
                 setAll(cookiesToSet: { name: string; value: string; options?: CookieOptions }[]): void {

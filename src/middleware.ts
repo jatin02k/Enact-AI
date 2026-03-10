@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
   // Refresh session if expired - required for Server Components
   const { data: { user } } = await supabase.auth.getUser()
 
-  const isLoginPage = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/auth')
+  const isLoginPage = request.nextUrl.pathname.startsWith('/login') || (request.nextUrl.pathname.startsWith('/auth') && !request.nextUrl.pathname.startsWith('/auth/callback'))
   const isDashboard = request.nextUrl.pathname.startsWith('/dashboard')
 
   // If user is signed in and tries to access login page, redirect to dashboard

@@ -1,6 +1,6 @@
 'use client'
 
-import { signInWithGoogle } from "@/app/auth/action"
+import { signInWithGoogle } from "@/actions/auth"
 
 export function GoogleSignInButton() {
   return (

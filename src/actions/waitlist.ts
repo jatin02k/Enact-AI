@@ -16,16 +16,23 @@ export async function submitEmail(prevState: ActionState | null, formData: FormD
     if (!email) {
         return { error: "Email is required" };
     }
+    const { data: existingUser } = await supabase
+        .from("waitlist")
+        .select("email")
+        .eq("email", email)
+        .single();
+
+    if (existingUser) {
+        return { error: 'Email already registered' };
+    }
+
     const { error } = await supabase
         .from("waitlist")
         .insert([{ email }]);
 
     if (error) {
-        console.log('Supabase Error', error);
-        if (error.code === '23505') { // Unique constraint violation code
-            return { error: 'Email already registered' }
-        }
-        return { error: 'Failed to save email' }
+        console.error('Supabase Error', error);
+        return { error: 'Failed to save email. Please try again later.' }
     }
     revalidatePath("/");
     return { success: true };

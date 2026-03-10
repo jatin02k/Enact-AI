@@ -17,8 +17,18 @@ export async function POST(req: NextRequest) {
     }
 
     // Authenticate user
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    let user = null;
+    let authError = null;
+    
+    try {
+        const supabase = await createClient();
+        const { data, error } = await supabase.auth.getUser();
+        user = data.user;
+        authError = error;
+    } catch (e) {
+        console.error("Supabase auth error in extract-task:", e);
+        authError = e;
+    }
     
     if (authError || !user) {
       return NextResponse.json(

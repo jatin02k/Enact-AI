@@ -5,7 +5,7 @@ import UploadImage from "@/components/dashboard/uploadImage";
 import TaskDisplay, { TaskDisplayRef } from "@/components/dashboard/taskDisplay";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { signOut } from '../auth/action';
+import { signOut } from '@/actions/auth';
 
 export default function DashboardPage() {
   const router = useRouter();
