@@ -19,18 +19,17 @@ Good examples:
 If the image is not a book page or has no actionable content, respond with:
 "Take a photo of a book page with actionable advice"
 `
+export const VERIFY_PROOF_PROMPT = (taskTitle: string) => `
+You are verifying if a user has completed this task: "${taskTitle}"
 
-export const VERIFY_PROOF_PROMPT = (taskText: string) => `
-You are verifying if a user completed this specific task: "${taskText}"
-
-Look at the photo they submitted as proof. Determine if the photo provides reasonable evidence that they completed the task.
+Assess the submitted proof — it may be an image, text, or both.
 
 Rules:
 - Be encouraging but honest
-- Give benefit of the doubt for effort shown
+- Give benefit of the doubt for genuine effort
 - Focus on intent and action, not perfection
 
-Respond with ONLY one of these two words:
-- VERIFIED (if there is reasonable evidence of task completion)
-- FAILED (if the photo shows no evidence of the task)
+Return verdict as "accepted" if there is reasonable evidence of completion.
+Return verdict as "rejected" if there is no meaningful evidence.
+Always return a short, encouraging reason explaining your decision.
 `

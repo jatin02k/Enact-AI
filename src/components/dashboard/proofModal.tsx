@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { X, Upload, FileText, ImageIcon } from "lucide-react"
 import Image from "next/image"
 
@@ -57,13 +57,18 @@ export default function ProofModal({
       return
     }
     onSubmit({ imageBase64: previewUrl, textProof })
+    setPreviewUrl(null)
+    setTextProof("")
   }
 
   return (
     /* Overlay — clicking it closes the modal */
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-      onClick={onClose}
+      onClick={() => {
+        onClose();
+        setPreviewUrl(null);
+      }}
     >
       {/* Modal container — stop click from bubbling to overlay */}
       <div
@@ -78,7 +83,11 @@ export default function ProofModal({
             <h2 className="text-lg font-bold text-deep-brown leading-snug max-w-sm">{taskTitle}</h2>
           </div>
           <button
-            onClick={onClose}
+            onClick={() => {
+              onClose();
+              setPreviewUrl(null);
+              setTextProof("");
+            }}
             className="p-2 rounded-full hover:bg-soft-sand/60 text-warm-gray hover:text-deep-brown transition"
           >
             <X className="w-4 h-4" />

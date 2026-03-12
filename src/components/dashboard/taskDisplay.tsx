@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, Clock, Flame } from 'lucide-react';
 import ProofModal from './proofModal';
+import toast from 'react-hot-toast';
 
 interface Task {
   id: string;
@@ -32,6 +33,7 @@ const TaskDisplay = forwardRef<TaskDisplayRef, TaskDisplayProps>(({ refreshTrigg
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const supabase = createClient();
 
   const fetchTasks = async () => {
@@ -54,8 +56,43 @@ const TaskDisplay = forwardRef<TaskDisplayRef, TaskDisplayProps>(({ refreshTrigg
     }
   };
 
-  const handleProofSubmit = async()=>{
-    
+  const handleSubmitProof = async ({ imageBase64, textProof }: { imageBase64: string | null; textProof: string }) => {
+    if (!imageBase64 && !textProof) return;
+    setIsSubmitting(true);
+    try {
+      toast.loading('Submitting Proof...');
+      const response = await fetch('api/verify-proof', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          imageBase64, 
+          textProof, 
+          taskId: selectedTask?.id, 
+          taskTitle: selectedTask?.title, 
+          taskDescription: selectedTask?.description })
+      })
+      if (!response.ok) {
+        throw new Error('Failed to Submit Proof');
+      }
+      const data = await response.json();
+      toast.dismiss();
+      if (data.verdict === 'accepted') {
+        await supabase.from('tasks').update({ status: 'verified' }).eq('id', selectedTask?.id);
+        toast.success('Task Verified Successfully');
+        setIsModalOpen(false);
+        await fetchTasks();
+      } else {
+        toast.error(data.reason);
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      toast.dismiss();
+      toast.error('Failed to Submit Proof');
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   // Expose refresh function to parent
@@ -158,7 +195,7 @@ const TaskDisplay = forwardRef<TaskDisplayRef, TaskDisplayProps>(({ refreshTrigg
                       isOpen={isModalOpen}
                       onClose={() => setIsModalOpen(false)}
                       taskTitle={selectedTask?.title ?? ""}
-                      onSubmit={handleProofSubmit}  // passing the function down
+                      onSubmit={handleSubmitProof}  // passing the function down
                     />
                   </>
                 ) : (

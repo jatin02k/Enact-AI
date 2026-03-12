@@ -17,7 +17,10 @@ export const ExtractionSchema = z.object({
     })
   )
 });
-
+export const VerificationSchema = z.object({
+  verdict: z.enum(['accepted', 'rejected']).describe('Whether the proof shows reasonable evidence of task completion.'),
+  reason: z.string().describe('One sentence explaining why the proof was accepted or rejected.')
+})
 // Normalize category to match database constraints
 export function normalizeCategory(category: string): 'Mindset' | 'Productivity' | 'Health' | 'Finance' {
   const normalized = category.toLowerCase();
